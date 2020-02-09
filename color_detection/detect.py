@@ -6,23 +6,13 @@ import argparse
 import cv2
 import imutils
 
-# construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", help = "path to the image")
-args = vars(ap.parse_args())
-# load the image
-image = cv2.imread(args["image"])
+def hello():
+    print("hello world")
 
-# define the list of boundaries
-boundaries = [
-    ([200, 100, 0], [255, 205, 100]), # B G R order
-]
-
-# loop over the boundaries
-for (lower, upper) in boundaries:
-    # create NumPy arrays from the boundaries
-    lower = np.array(lower, dtype = "uint8")
-    upper = np.array(upper, dtype = "uint8")
+def determineCentroid(image):
+    # create NumPy arrays from the boundaries #BGR order
+    lower = np.array([200, 100, 0], dtype = "uint8")
+    upper = np.array([255, 205, 100], dtype = "uint8")
 
     # find the colors within the specified boundaries
     mask = cv2.inRange(image, lower, upper)
@@ -37,6 +27,9 @@ for (lower, upper) in boundaries:
     cnts = imutils.grab_contours(cnts)
 
     areas = [cv2.contourArea(c) for c in cnts]
+    print ("areas: ", areas)
+    if len(areas) == 0:
+        return (0, 0)
     max_idx = areas.index(max(areas))
     # print ("cnts: ", areas)
     print ("max_idx: ", max_idx)
@@ -44,7 +37,7 @@ for (lower, upper) in boundaries:
 
     M = cv2.moments(cnts[max_idx])
     if M["m00"] == 0:
-        pass
+        return (0, 0)
     cX = int(M["m10"] / (M["m00"] + 0.1))
     cY = int(M["m01"] / (M["m00"] + 0.1))
     # draw the contour and center of the shape on the image
@@ -57,5 +50,14 @@ for (lower, upper) in boundaries:
     cv2.imwrite("mask.jpg", mask)
     output = cv2.bitwise_and(image, image, mask = mask)
 
-    cv2.imwrite("sidebyside.jpg", np.hstack([image, output]))
-    cv2.imwrite("sidebyside.jpg", image)
+    cv2.imwrite("output.jpg", image)
+
+    return (cX, cY)
+
+# construct the argument parse and parse the arguments
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-i", "--image", help = "path to the image")
+# args = vars(ap.parse_args())
+# # load the image
+# image = cv2.imread(args["image"])
+# determineCentroid(image)
