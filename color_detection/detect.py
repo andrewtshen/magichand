@@ -11,8 +11,11 @@ def hello():
 
 def determineCentroid(image):
     # create NumPy arrays from the boundaries #BGR order
-    lower = np.array([100, 50, 30], dtype = "uint8")
-    upper = np.array([200, 150, 80], dtype = "uint8")
+    # lower = np.array([100, 50, 30], dtype = "uint8")
+    # upper = np.array([200, 150, 120], dtype = "uint8")
+    lower = np.array([0, 0, 0], dtype = "uint8")
+    upper = np.array([0, 0, 0], dtype = "uint8")
+        
 
     # find the colors within the specified boundaries
     mask = cv2.inRange(image, lower, upper)
