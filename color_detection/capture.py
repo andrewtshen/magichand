@@ -4,6 +4,9 @@ import sys; sys.path.insert(0, "/usr/local/lib/python3.7/site-packages")
 import detect
 import numpy as np
 import cv2
+import controlmouse
+from imutils.video import WebcamVideoStream
+from imutils.video import FPS
 
 cap = cv2.VideoCapture(0)
 
@@ -11,10 +14,11 @@ while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
     cv2.imwrite("frame.jpg", frame)
-    print("reading frame")
 
     cX, cY = detect.determineCentroid(frame)
-    print("centroid: ", cX, cY)
+    cmd = [0, cX, cY]
+    controlmouse.execCmd(cmd)
+    # print("centroid: ", cX, cY)
 
     # Display the resulting frame
     if cv2.waitKey(1) & 0xFF == ord('q'):

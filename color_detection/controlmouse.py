@@ -13,7 +13,7 @@ def execCmd(cmd):
         assert len(cmd) == 3
         x = cmd[1]
         y = cmd[2]
-        pyautogui.moveRel(x, y, duration = 0.3)
+        pyautogui.moveTo(xdim-x, y, duration = 0.1)
     elif option == 1:
         x, y = pyautogui.position()
         pyautogui.leftClick(x, y)
@@ -45,7 +45,7 @@ def execCmd(cmd):
 
     print("position: ", pyautogui.position())
 
-def run():
+def runtest():
 
     # xdim, ydim = pyautogui.size()
     # print("xdim: ", xdim)
@@ -60,5 +60,5 @@ def run():
     #     option = int(input("option: "))
     #     exe
 
-run()
+# runtest()
 
