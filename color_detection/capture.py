@@ -15,10 +15,11 @@ while(True):
     ret, frame = cap.read()
     cv2.imwrite("frame.jpg", frame)
 
-    cX, cY = detect.determineCentroid(frame)
+    cX, cY, maxArea = detect.determineCentroid(frame)
     cmd = [0, cX, cY]
     controlmouse.execCmd(cmd)
     # print("centroid: ", cX, cY)
+    print("area: ", maxArea)
 
     # Display the resulting frame
     if cv2.waitKey(1) & 0xFF == ord('q'):
