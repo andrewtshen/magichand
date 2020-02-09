@@ -23,27 +23,30 @@ fps = FPS().start()
 
 click_check = [50000, 50000, 50000, 50000, 50000]
 
-cntr = 0;
+cntr = 0
 
-while fps._numFrames < args["num_frames"]:
-    # to have a maximum width of 400 pixels
-    frame = vs.read()
+frame = vs.read()
+detect.initBounds(frame)
 
-    cv2.imwrite("frame.jpg", frame)
-    # Capture frame-by-frame and execute mouse movement
-    cX, cY, maxArea = detect.determineCentroid(frame)
-    print("area: ", maxArea)
-    cmd = [0, cX, cY]
-    controlmouse.execCmd(cmd)
-    cntr+=1
-    cntr = cntr % 5
-    palm = 0.6
-    if (maxArea/(click_check[cntr]+0.01) < palm):
-        print ("clicking")
-        cmd = [1]
-        controlmouse.execCmd(cmd)
-    print("checking: ", maxArea/(click_check[cntr]+0.01), " against: ", palm)
-    click_check[cntr] = maxArea
+# while True:
+#     # to have a maximum width of 400 pixels
+#     frame = vs.read()
+
+#     cv2.imwrite("frame.jpg", frame)
+#     # Capture frame-by-frame and execute mouse movement
+#     cX, cY, maxArea = detect.determineCentroid(frame)
+#     print("area: ", maxArea)
+#     cmd = [0, cX, cY]
+#     controlmouse.execCmd(cmd)
+#     cntr+=1
+#     cntr = cntr % 5
+#     palm = 0.6
+#     if (maxArea/(click_check[cntr]+0.01) < palm):
+#         print ("clicking")
+#         cmd = [1]
+#         controlmouse.execCmd(cmd)
+#     print("checking: ", maxArea/(click_check[cntr]+0.01), " against: ", palm)
+#     click_check[cntr] = maxArea
 
 print ("done")
 # do a bit of cleanup

@@ -9,12 +9,32 @@ import imutils
 def hello():
     print("hello world")
 
+def initBounds(image):
+    cnts = cv2.findContours(image.copy(), cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+
+    # keep max contour
+    areas = [cv2.contourArea(c) for c in cnts]
+    if len(areas) == 0:
+        return (0, 0, 100000)
+    max_idx = areas.index(max(areas))
+    max_area = areas[max_idx]
+    M = cv2.moments(cnts[max_idx])
+    if M["m00"] == 0:
+        print ("herea")
+        return (0, 0, max_area)
+    cX = int(M["m10"] / (M["m00"] + 0.1))
+    cY = int(M["m01"] / (M["m00"] + 0.1))
+    print ("shape: ", image.shape)
+
+
 def determineCentroid(image):
     # create NumPy arrays from the boundaries #BGR order
     # lower = np.array([100, 50, 30], dtype = "uint8")
     # upper = np.array([200, 150, 120], dtype = "uint8")
-    lower = np.array([0, 0, 0], dtype = "uint8")
-    upper = np.array([0, 0, 0], dtype = "uint8")
+    lower = np.array([180, 0, 20], dtype = "uint8")
+    upper = np.array([220, 100, 100], dtype = "uint8")
         
 
     # find the colors within the specified boundaries
