@@ -46,19 +46,11 @@ def execCmd(cmd):
     print("position: ", pyautogui.position())
 
 def run():
-
-    # xdim, ydim = pyautogui.size()
-    # print("xdim: ", xdim)
-    # print("ydim: ", ydim)
     pyautogui.moveTo(xdim/2, ydim/2, duration = 0)
     cmd1 = [0, -450, -435]
     cmd2 = [1]
     execCmd(cmd1)
     execCmd(cmd2)
-
-    # while True:
-    #     option = int(input("option: "))
-    #     exe
 
 run()
 

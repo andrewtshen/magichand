@@ -148,7 +148,6 @@ def manage_image_opr(frame, hand_hist):
         hull = cv2.convexHull(max_cont, returnPoints=False)
         defects = cv2.convexityDefects(max_cont, hull)
         far_point = farthest_point(defects, max_cont, cnt_centroid)
-        #print("Centroid : " + str(cnt_centroid) + ", farthest Point : " + str(far_point))
         cv2.circle(frame, far_point, 5, [0, 0, 255], -1)
         if far_point is not None:
 	        if len(traverse_point) < 20:
@@ -217,22 +216,13 @@ def motion(traverse_point,traverse_centroid):
 		
 		A_p = np.vstack([p_x, np.ones(len(p_x))]).T
 		m_p, b_p = np.linalg.lstsq(A_p, p_y, rcond=None)[0]
-
 		
 		#perform linear fit for the centroid
 		
 		A_c = np.vstack([c_x, np.ones(len(c_x))]).T
 		m_c, b_c = np.linalg.lstsq(A_c,c_y,rcond=None)[0]
 
-
-		# print()
-
-		# p_mm=np.array([max(p_x)+min(p_x))/2,(max(p_y)+min(p_y)/2)])
-		# p_med=np.array[(stat.median(p_x),stat.median(p_y))]
-
-		# if np.linalg.norm(p_mm-p_med)<=100
-
-		return (m_p,m_c)
+		return (m_p, m_c)
 	
 	else:
 		return None
@@ -254,25 +244,23 @@ def det_gesture(traverse_point, traverse_centroid):
 	2: click (stay stable)
 
 	'''
-	set=None
+	set = None
 
 	slopes=motion(traverse_point,traverse_centroid)
 
 	if slopes is not None:
-		m_p,m_c=slopes[0],slopes[1]
+		m_p, m_c = slopes[0], slopes[1]
 
-	change=box_change(traverse_centroid[0],traverse_centroid[-1])
+	change = box_change(traverse_centroid[0], traverse_centroid[-1])
 
-	#condition for simply moving the cursor
-	if change==True:
-		set=0
+	# condition for simply moving the cursor
+	if change:
+		set = 0
 	else:
-		if box_change(traverse_point[0],traverse_point[-1])==True:
-			set=1
+		if box_change(traverse_point[0],traverse_point[-1]):
+			set = 1
 		else:
 			set=2
 
 	return set
-
-
 

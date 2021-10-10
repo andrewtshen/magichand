@@ -6,9 +6,6 @@ import argparse
 import cv2
 import imutils
 
-def hello():
-    print("hello world")
-
 def initBounds(image):
     cnts = cv2.findContours(image.copy(), cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE)
@@ -22,17 +19,14 @@ def initBounds(image):
     max_area = areas[max_idx]
     M = cv2.moments(cnts[max_idx])
     if M["m00"] == 0:
-        print ("herea")
         return (0, 0, max_area)
     cX = int(M["m10"] / (M["m00"] + 0.1))
     cY = int(M["m01"] / (M["m00"] + 0.1))
-    print ("shape: ", image.shape)
+    print ("DEBUG shape: ", image.shape)
 
 
 def determineCentroid(image):
     # create NumPy arrays from the boundaries #BGR order
-    # lower = np.array([100, 50, 30], dtype = "uint8")
-    # upper = np.array([200, 150, 120], dtype = "uint8")
     lower = np.array([180, 0, 20], dtype = "uint8")
     upper = np.array([220, 100, 100], dtype = "uint8")
         
@@ -58,7 +52,6 @@ def determineCentroid(image):
 
     M = cv2.moments(cnts[max_idx])
     if M["m00"] == 0:
-        print ("herea")
         return (0, 0, max_area)
     cX = int(M["m10"] / (M["m00"] + 0.1))
     cY = int(M["m01"] / (M["m00"] + 0.1))

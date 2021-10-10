@@ -18,8 +18,7 @@ while(True):
     cX, cY, maxArea = detect.determineCentroid(frame)
     cmd = [0, cX, cY]
     controlmouse.execCmd(cmd)
-    # print("centroid: ", cX, cY)
-    print("area: ", maxArea)
+    print("DEBUG area: ", maxArea)
 
     # Display the resulting frame
     if cv2.waitKey(1) & 0xFF == ord('q'):
